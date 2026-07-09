@@ -244,6 +244,74 @@ export const PROVIDERS = {
   
 
   // 默认使用 OpenAI 格式
+  futureppo: {
+    label: '未来 PPO API',
+    defaultBaseUrl: 'https://api.futureppo.top',
+    endpoints: {
+      chat: '/v1/chat/completions',
+      image: '/v1/images/generations',
+      imageEdit: '/v1/images/edits',
+      video: '/v1/video/generations',
+      videoQuery: '/v1/video/task/{taskId}'
+    },
+    requestAdapter: {
+      chat: (params) => {
+        const adapted = {
+          model: params.model,
+          messages: params.messages
+        }
+        if (params.temperature !== undefined) adapted.temperature = params.temperature
+        if (params.max_tokens !== undefined) adapted.max_tokens = params.max_tokens
+        if (params.stream !== undefined) adapted.stream = params.stream
+        return adapted
+      },
+      image: (params) => {
+        const adapted = {
+          model: params.model,
+          prompt: params.prompt
+        }
+        if (params.size) adapted.size = params.size
+        if (params.n) adapted.n = params.n
+        if (params.quality) adapted.quality = params.quality
+        if (params.style) adapted.style = params.style
+        if (params.image) adapted.image = params.image
+        return adapted
+      },
+      video: (params) => {
+        const adapted = {
+          model: params.model,
+          prompt: params.prompt || ''
+        }
+        if (params.first_frame_image) adapted.first_frame_image = params.first_frame_image
+        if (params.last_frame_image) adapted.last_frame_image = params.last_frame_image
+        if (params.size) adapted.size = params.size
+        if (params.seconds) adapted.seconds = params.seconds
+        return adapted
+      }
+    },
+    responseAdapter: {
+      chat: (response) => {
+        if (response.choices && response.choices.length > 0) {
+          return response.choices[0].message?.content || ''
+        }
+        return ''
+      },
+      image: (response) => {
+        const data = response.data || response
+        return (Array.isArray(data) ? data : [data]).map(item => ({
+          url: item.url || item.b64_json || '',
+          revisedPrompt: item.revised_prompt || ''
+        }))
+      },
+      video: (response) => {
+        return {
+          url: response.data?.url || response.url || response.data?.[0]?.url || '',
+          ...response
+        }
+      }
+    }
+  },
+
   default: 'chatfire'
 }
 

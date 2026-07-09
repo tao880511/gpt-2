@@ -50,7 +50,7 @@ export const IMAGE_MODELS = [
     {
         label: 'Nano Banana 2',
         key: 'nano-banana-2',
-        provider: ['chatfire'], // 火宝渠道
+        provider: ['chatfire', 'futureppo'], // 火宝渠道
         sizes: BANANA_SIZE_OPTIONS.map(s => s.key),
         // qualities: SEEDREAM_QUALITY_OPTIONS,
         // getSizesByQuality: (quality) => quality === '4k' ? SEEDREAM_4K_SIZE_OPTIONS : SEEDREAM_SIZE_OPTIONS,
@@ -63,7 +63,7 @@ export const IMAGE_MODELS = [
     {
         label: 'Nano Banana Pro',
         key: 'nano-banana-pro',
-        provider: ['chatfire'], // 火宝渠道
+        provider: ['chatfire', 'futureppo'], // 火宝渠道
         sizes: BANANA_SIZE_OPTIONS.map(s => s.key),
         // qualities: SEEDREAM_QUALITY_OPTIONS,
         // getSizesByQuality: (quality) => quality === '4k' ? SEEDREAM_4K_SIZE_OPTIONS : SEEDREAM_SIZE_OPTIONS,
@@ -74,9 +74,9 @@ export const IMAGE_MODELS = [
         }
     },
     {
-        label: '豆包 Seedream 4.5',
-        key: 'doubao-seedream-4-5-251128',
-        provider: ['chatfire'], // 火宝渠道
+        label: '豆包 Seedream 4',
+        key: 'doubao-seedream-4',
+        provider: ['chatfire', 'futureppo'],
         sizes: SEEDREAM_SIZE_OPTIONS.map(s => s.key),
         qualities: SEEDREAM_QUALITY_OPTIONS,
         getSizesByQuality: (quality) => quality === '4k' ? SEEDREAM_4K_SIZE_OPTIONS : SEEDREAM_SIZE_OPTIONS,
@@ -87,9 +87,78 @@ export const IMAGE_MODELS = [
         }
     },
     {
+        label: '豆包 Seedream 4.5',
+        key: 'doubao-seedream-4-5-251128',
+        provider: ['chatfire', 'futureppo'],
+        sizes: SEEDREAM_SIZE_OPTIONS.map(s => s.key),
+        qualities: SEEDREAM_QUALITY_OPTIONS,
+        getSizesByQuality: (quality) => quality === '4k' ? SEEDREAM_4K_SIZE_OPTIONS : SEEDREAM_SIZE_OPTIONS,
+        defaultParams: {
+            size: '2048x2048',
+            quality: 'standard',
+            style: 'vivid'
+        }
+    },
+    {
+        label: 'GPT Image 2',
+        key: 'gpt-image-2',
+        provider: ['futureppo'],
+        sizes: SEEDREAM_SIZE_OPTIONS.map(s => s.key),
+        defaultParams: {
+            size: '2048x2048',
+            quality: 'standard',
+            style: 'vivid'
+        }
+    },
+    {
+        label: 'Agnes Image 2.0 Flash',
+        key: 'agnes-image-2.0-flash',
+        provider: ['futureppo'],
+        sizes: SEEDREAM_SIZE_OPTIONS.map(s => s.key),
+        defaultParams: {
+            size: '2048x2048',
+            quality: 'standard',
+            style: 'vivid'
+        }
+    },
+    {
+        label: 'Agnes Image 2.1 Flash',
+        key: 'agnes-image-2.1-flash',
+        provider: ['futureppo'],
+        sizes: SEEDREAM_SIZE_OPTIONS.map(s => s.key),
+        defaultParams: {
+            size: '2048x2048',
+            quality: 'standard',
+            style: 'vivid'
+        }
+    },
+    {
+        label: 'Qwen Image 2512',
+        key: 'qwen-image-2512',
+        provider: ['futureppo'],
+        sizes: SEEDREAM_SIZE_OPTIONS.map(s => s.key),
+        defaultParams: {
+            size: '2048x2048',
+            quality: 'standard',
+            style: 'vivid'
+        }
+    },
+    {
+        label: 'Z Image Turbo',
+        key: 'z-image-turbo',
+        provider: ['futureppo'],
+        sizes: SEEDREAM_SIZE_OPTIONS.map(s => s.key),
+        defaultParams: {
+            size: '2048x2048',
+            quality: 'standard',
+            style: 'vivid'
+        }
+    },
+
+    {
         label: 'Nano Banana',
         key: 'nano-banana',
-        provider: ['chatfire'], // 火宝渠道
+        provider: ['chatfire', 'futureppo'], // 火宝渠道
         tips: '尺寸写在提示词中: 尺寸 9:16',
         sizes: [],
         defaultParams: {
