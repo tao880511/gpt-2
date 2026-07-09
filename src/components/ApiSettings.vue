@@ -41,6 +41,10 @@
               <n-tag size="small" type="success" class="endpoint-tag">{{ currentEndpoints.image }}</n-tag>
             </div>
             <div class="endpoint-item">
+              <span class="endpoint-label">图生图</span>
+              <n-tag size="small" type="success" class="endpoint-tag">{{ currentEndpoints.imageEdit || '/v1/images/edits' }}</n-tag>
+            </div>
+            <div class="endpoint-item">
               <span class="endpoint-label">视频生成</span>
               <n-tag size="small" type="warning" class="endpoint-tag">{{ currentEndpoints.video }}</n-tag>
             </div>

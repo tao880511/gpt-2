@@ -371,6 +371,12 @@ export const useModelStore = defineStore('model', () => {
     return `${currentBaseUrl.value}${endpoint}`
   }
 
+  // 获取图片编辑端点（图生图）
+  const getImageEditEndpoint = () => {
+    const endpoint = providerConfig.value.endpoints?.imageEdit || providerConfig.value.endpoints?.image || '/images/edits'
+    return `${currentBaseUrl.value}${endpoint}`
+  }
+
   // 获取视频生成端点
   const getVideoEndpoint = () => {
     const endpoint = providerConfig.value.endpoints?.video || '/videos'

@@ -147,6 +147,7 @@ export const useChat = (options = {}) => {
 /**
  * Image generation composable | 图片生成组合式函数
  * Simplified for open source - fixed input/output format
+ * Supports both text-to-image and image-to-image
  */
 export const useImageGeneration = () => {
   const { loading, error, status, reset, setLoading, setError, setSuccess } = useApiState()
@@ -184,10 +185,15 @@ export const useImageGeneration = () => {
       // 适配请求参数
       const adaptedParams = adaptRequest('image', requestData)
 
+      // Determine endpoint based on whether reference image exists
+      // 根据是否有参考图判断使用哪个端点
+      const hasReferenceImage = params.image && (!Array.isArray(params.image) ? true : params.image.length > 0)
+      const endpoint = hasReferenceImage ? modelStore.getImageEditEndpoint() : modelStore.getImageEndpoint()
+
       // Call API | 调用 API
       const response = await generateImage(adaptedParams, {
         requestType: 'json',
-        endpoint: modelStore.getImageEndpoint()
+        endpoint: endpoint
       })
 
       // 适配响应数据

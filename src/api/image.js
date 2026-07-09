@@ -15,3 +15,15 @@ export const generateImage = (data, options = {}) => {
     headers: requestType === 'formdata' ? { 'Content-Type': 'multipart/form-data' } : {}
   })
 }
+
+// 编辑图片（图生图）
+export const editImage = (data, options = {}) => {
+  const { requestType = 'formdata', endpoint = '/images/edits' } = options
+  
+  return request({
+    url: endpoint,
+    method: 'post',
+    data,
+    headers: requestType === 'formdata' ? { 'Content-Type': 'multipart/form-data' } : {}
+  })
+}
