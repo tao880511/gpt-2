@@ -596,8 +596,9 @@ export const useModelStore = defineStore('model', () => {
     getVideoModel,
 
     // Get API endpoints
-    getImageEndpoint,
-    getVideoEndpoint,
+      getImageEndpoint,
+      getImageEditEndpoint,
+      getVideoEndpoint,
     getVideoTaskEndpoint,
     getChatEndpoint,
 
