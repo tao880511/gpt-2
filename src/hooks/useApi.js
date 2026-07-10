@@ -198,8 +198,9 @@ export const useImageGeneration = () => {
         formData.append('prompt', adaptedParams.prompt)
         if (adaptedParams.size) formData.append('size', adaptedParams.size)
         
-        // 处理参考图 - 可能是 base64、data URL 或文件对象
-        let imageFile = params.image
+        // 处理参考图 - 可能是 base64、data URL、文件对象，或数组
+        // 取第一张作为参考图（API 通常只支持单张）
+        let imageFile = Array.isArray(params.image) ? params.image[0] : params.image
         if (typeof imageFile === 'string') {
           // 如果是 base64 或 data URL，转为 Blob
           if (imageFile.startsWith('data:')) {
