@@ -188,13 +188,68 @@ export const useImageGeneration = () => {
       // Determine endpoint based on whether reference image exists
       // 根据是否有参考图判断使用哪个端点
       const hasReferenceImage = params.image && (!Array.isArray(params.image) ? true : params.image.length > 0)
-      const endpoint = hasReferenceImage ? modelStore.getImageEditEndpoint() : modelStore.getImageEndpoint()
-
-      // Call API | 调用 API
-      const response = await generateImage(adaptedParams, {
-        requestType: 'json',
-        endpoint: endpoint
-      })
+      
+      let response
+      if (hasReferenceImage) {
+        // 图生图：使用 editImage 并构造 FormData
+        const formData = new FormData()
+        formData.append('model', adaptedParams.model)
+        formData.append('prompt', adaptedParams.prompt)
+        if (adaptedParams.size) formData.append('size', adaptedParams.size)
+        
+        // 处理参考图 - 可能是 base64、data URL 或文件对象
+        let imageFile = params.image
+        if (typeof imageFile === 'string') {
+          // 如果是 base64 或 data URL，转为 Blob
+          if (imageFile.startsWith('data:')) {
+            const byteString = atob(imageFile.split(',')[1])
+            const mimeString = imageFile.split(',')[0].split(':')[1].split(';')[0]
+            const ab = new ArrayBuffer(byteString.length)
+            const ia = new Uint8Array(ab)
+            for (let i = 0; i < byteString.length; i++) {
+              ia[i] = byteString.charCodeAt(i)
+            }
+            imageFile = new File([new Blob([ab], { type: mimeString })], 'reference.png', { type: mimeString })
+          } else {
+            // 假设是 base64
+            const byteString = atob(imageFile)
+            const ab = new ArrayBuffer(byteString.length)
+            const ia = new Uint8Array(ab)
+            for (let i = 0; i < byteString.length; i++) {
+              ia[i] = byteString.charCodeAt(i)
+            }
+            imageFile = new File([new Blob([ab], { type: 'image/png' })], 'reference.png', { type: 'image/png' })
+          }
+        }
+        formData.append('image', imageFile)
+        
+        // 如果有 mask 也加上
+        if (params.mask) {
+          let maskFile = params.mask
+          if (typeof maskFile === 'string' && maskFile.startsWith('data:')) {
+            const byteString = atob(maskFile.split(',')[1])
+            const mimeString = maskFile.split(',')[0].split(':')[1].split(';')[0]
+            const ab = new ArrayBuffer(byteString.length)
+            const ia = new Uint8Array(ab)
+            for (let i = 0; i < byteString.length; i++) {
+              ia[i] = byteString.charCodeAt(i)
+            }
+            maskFile = new File([new Blob([ab], { type: mimeString })], 'mask.png', { type: mimeString })
+          }
+          formData.append('mask', maskFile)
+        }
+        
+        response = await editImage(formData, {
+          requestType: 'formdata',
+          endpoint: modelStore.getImageEditEndpoint()
+        })
+      } else {
+        // 文生图：用 JSON
+        response = await generateImage(adaptedParams, {
+          requestType: 'json',
+          endpoint: modelStore.getImageEndpoint()
+        })
+      }
 
       // 适配响应数据
       const adaptedData = adaptResponse('image', response)
