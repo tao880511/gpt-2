@@ -12,7 +12,7 @@ export const generateImage = (data, options = {}) => {
     url: endpoint,
     method: 'post',
     data,
-    headers: requestType === 'formdata' ? { 'Content-Type': 'multipart/form-data' } : {}
+    headers: requestType === 'formdata' ? {} : {}
   })
 }
 
@@ -24,6 +24,7 @@ export const editImage = (data, options = {}) => {
     url: endpoint,
     method: 'post',
     data,
-    headers: requestType === 'formdata' ? { 'Content-Type': 'multipart/form-data' } : {}
+    // 不要手动设置 Content-Type，让浏览器自动设置（包含 boundary）
+    headers: requestType === 'formdata' ? {} : {}
   })
 }
