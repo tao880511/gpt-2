@@ -6,6 +6,7 @@
 import { ref, reactive, onUnmounted } from 'vue'
 import {
   generateImage,
+  editImage,
   createVideoTask,
   getVideoTaskStatus,
   streamChatCompletions
